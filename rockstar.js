@@ -1,6 +1,6 @@
 let userLife = 5; //목숨
 let drawLivesState = false; //목숨 숨길 수 있음
-let imageName = ""; //인생네컷 qr 이미지 파일 이름
+let imageName = ""; //qr이미지 파일 이름
 
 let Font1; //'둥근모꼴' 폰트
 let Font2; //'한수원 한울림체체' 폰트
@@ -8,8 +8,8 @@ let localFrameCount = 0; //몇초인지 세기 위한 변수
 let clickSound; // 클릭 소리 변수
 
 let openingBgm, walkingBgm, warningBgm, truckCrashBgm, invitationBgm, noelBgm, noelMadBgm, outro1Bgm, outro2Bgm, truckSuspenseBgm;
-let stage1InfoBgm, stage1PlayBgm, stage2InfoBgm, stage2PlayBgm, stage3InfoBgm;
-let stage2ScoreBgm;
+let awareBgm, fillBlankBgm, breakingBgm, noExplainBgm, uservsnoelBgm, stage1InfoBgm, stage1PlayBgm, stage2InfoBgm, stage2PlayBgm, stage3InfoBgm;
+let stage2ExplainBgm, stage2ScoreBgm, backToRealBgm, stage3FailBgm, hyuksooBgm, skeletonDeadBgm;
 let countdownBgm;
 let bgm22;
 let currentBgm;
@@ -159,18 +159,6 @@ let textToTypeS3_2 = "";
 let typedTextS3_2 = ""; // 초기화
 let charIndexS3_2 = 0;
 let isReadyS3_2 = false;
-let textToType3_1 = "";
-let typedText3_1 = ""; // 초기화
-let charIndex3_1 = 0;
-let isReady3_1 = false;
-let textToType3_2 = "";
-let typedText3_2 = ""; // 초기화
-let charIndex3_2 = 0;
-let isReady3_2 = false;
-let textToType3_3 = "";
-let typedText3_3 = ""; // 초기화
-let charIndex3_3 = 0;
-let isReady3_3 = false;
 
 let textToTypes3s1 = "";
 let typedTexts3s1 = ""; // 초기화
@@ -198,6 +186,10 @@ let textToTypeR3_3 = "";
 let typedTextR3_3 = ""; // 초기화
 let charIndexR3_3 = 0;
 let isReadyR3_3 = false;
+let textToTypeR3_4 = "";
+let typedTextR3_4 = ""; // 초기화
+let charIndexR3_4 = 0;
+let isReadyR3_4 = false;
 
 let textToTypes4f1 = "";
 let typedTexts4f1 = ""; // 초기화
@@ -240,6 +232,10 @@ let textToTypeoutro_10 = "";
 let typedTextoutro_10 = ""; // 초기화
 let charIndexoutro_10 = 0;
 let isReadyoutro_10 = false;
+
+let text4_1;
+let text4_2;
+let text4_3;
 
 let mainLogo; //프로젝트 로고 (뉴버전)
 let mainLogo2_guitar; //기타 들어간 프로젝트 로고
@@ -331,6 +327,7 @@ let sticker11;
 let sticker12;
 let sticker13;
 let sticker14;
+let userOpenEyeBgm;
 
 let pageone; //첫 번째 스테이지
 let countdown = 3; //카운트다운
@@ -343,7 +340,7 @@ let questionResult1_3 = "";
 let question1_1 = "Q. 다음 중, 락스타의 상징에 해당하는 것은?";
 let options1_1 = ["1. 뛰어난 패션감각", "2. 낭만적인 인생 서사", "3. 일당백 무대 장악력"];
 let question1_2 = "Q. 다음 중, '락'이 아닌 것은?";
-let options1_2 = ["1. 대한민국주가폭락", "2. 손발꼼지락꼼지락", "3. 다상해버린도시락"];
+let options1_2 = ["1. 대한민국주가폭락", "2. 손발꼼지락꼼지락", "3. 엄마가싸주신도시락"];
 let question1_3 = "Q. 다음 중 가장 락스타다운 고백은?";
 let options1_3 = ["1. 귀엽다나랑살래요?", "2. 귀엽다키스할래요?", "3. 귀엽다손잡을래요?"];
 let correctAnswer1_1 = 1; //정답: 2번
@@ -380,7 +377,6 @@ let warningImg; // 경고 이미지
 let questionAnswered3 = false;
 let questionResult3 = "";
 let options3_1 = ["1. 마초라면 고민하지 않지! 진행시켜!", "2. 아니제발사람의견좀물어보고으아아아ㅏ악!시..시작하는 거야? 벌써?"];
-let question3 = "Q. 다음 중 어떤 해골이 데스메탈을 듣고 있지?";
 let options3 = ["1. 노매력 해골", "2. 젠지한 해골", "3. 무근본 해골"];
 let correctAnswer3 = 2; //정답: 3번
 let back2Img;
@@ -519,6 +515,12 @@ function preload() {
   introtext2Img = loadImage('assets/intro_text.png');
   gamePlayButton = loadImage('assets/play_button.png');
   tryButton = loadImage('assets/try_button.png');
+  uservsnoelBgm = loadSound('assets/uservsnoel.mp3');
+  userOpenEyeBgm = loadSound('assets/user_openeye.mp3');
+  awareBgm = loadSound('assets/aware.mp3');
+  fillBlankBgm = loadSound('assets/fill_blank.mp3');
+  breakingBgm = loadSound('assets/glass_breaking.mp3');
+  noExplainBgm = loadSound('assets/no_explain.mp3');
 
   rightAnswerImg = loadImage('assets/rightanswer.jpg'); //스테이지 1
   wrongAnswerImg = loadImage('assets/wronganswer.jpg');
@@ -548,6 +550,7 @@ function preload() {
   stageBack2Img = loadImage('assets/stage2_background.png');
   retryImg = loadImage('assets/retry_button.png');
   stage2ScoreBgm = loadSound('assets/stage2_score.mp3');
+  stage2ExplainBgm = loadSound('assets/stage2_explain.mp3');
   stage2InfoBgm = loadSound('assets/stage2_info.mp3');
   stage2PlayBgm = loadSound('assets/stage2_play.mp3');
 
@@ -561,6 +564,8 @@ function preload() {
   stage3Img = loadImage('assets/stage3.png');
   stageBack3Img = loadImage('assets/stage3_background.png');
   stage3InfoBgm = loadSound('assets/stage3_info.mp3');
+  skeletonDeadBgm = loadSound('assets/skeleton_dead.mp3');
+  stage3FailBgm = loadSound('assets/stage3_false.mp3');
 
   fuckposeImg = loadImage('assets/fucking_pose.png'); //스테이지 4
   hyuksoo1Img = loadImage('assets/npc_sorry.png');
@@ -570,6 +575,7 @@ function preload() {
   rockstarBubbleImg = loadImage('assets/rockstar_bubble.png');
   muggleBubbleImg = loadImage('assets/normal_bubble.png');
   replayButtonImg = loadImage('assets/replay_button.png');
+  hyuksooBgm = loadSound('assets/hyuksoo.mp3');
 
   noelSideImg = loadImage('assets/character_side.png'); //스테이지 5
   leaf1Img = loadImage('assets/leaf_1.png');
@@ -593,6 +599,7 @@ function preload() {
   blackMetalSound = loadSound('assets/blackmetal.mp3');
   bgm22 = loadSound('assets/bgm22.mp3');
   endingVideo = createVideo('assets/endingvideo.mp4');
+  backToRealBgm = loadSound('assets/back_to_reality.mp3');
   outro1Bgm = loadSound('assets/outro_1.mp3');
   outro2Bgm = loadSound('assets/alone again.mp3');
   clickSound = loadSound('assets/click.mp3');
@@ -624,7 +631,7 @@ function setup() {
       audioStream = stream;
       console.log("Audio context activated via getUserMedia!");
       clickSound = loadSound('assets/click.mp3');
-      playBackgroundMusic(openingBgm); // 배경음악 재생
+      playBackgroundMusic(); // 배경음악 재생
     })
     .catch((err) => {
       console.error("Error accessing audio devices:", err);
@@ -1063,7 +1070,7 @@ function prepareStage0_7() {
   textToType0_7_1 = "아니? 아예";
   typedText0_7_1 = ""; // 초기화
   charIndex0_7_1 = 0;
-  isReady0_7_1 = false;
+  isReady0_7_1= false;
   textToType0_7_2 = "이세계트럭";
   typedText0_7_2 = ""; // 초기화
   charIndex0_7_2 = 0;
@@ -1148,20 +1155,19 @@ function drawStage0_7() {
   text(typedText0_7_2, width / 2 - 245, 638); // 텍스트 1
   fill(255);
   textFont(Font1);
-  text(typedText0_7_3, width / 2 + 20, 638); // 텍스트 3
+  text(typedText0_7_3, width / 2+20, 638); // 텍스트 3
   fill(255);
   textFont(Font1);
   text(typedText0_7_4, width / 2, 690); // 텍스트 4
 
   if (mouseX > 405 && mouseX < 530 && mouseY > 625 && mouseY < 650) {
-    fill(245, 245, 245, 130);
     rectMode(CENTER);
     rect(mouseX + 100, mouseY - 120, 280, 200, 5); // 배경 박스
     fill(255);
     textSize(20);
     fill(0);
     textFont(Font2);
-    text("<참고>\n이세계트럭이란?\n: 주로 남성향 웹소설에서\n주인공에게 쾅 돌진해\n이세계로 환생할 수 있게끔\n도와주는 트럭이다.", mouseX + 100, mouseY - 135);
+    text("<참고>\n이세계트럭이란?\n: 주로 남성향 웹소설에서\n님을 환생하라고 들이받는 트럭\n이 게임에선\n이세계로 보내버리는 트럭이다.", mouseX + 100, mouseY - 135);
     fill(255, 0, 0);
     text("99.9% 확률로 못 피한다.", mouseX + 100, mouseY - 45);
   }
@@ -1301,7 +1307,7 @@ function drawStage0_9() { // 타자기 효과 수정
     fill(0);
     textAlign(CENTER);
     textFont(Font2); // 설명 텍스트 폰트는 Font2
-    text("<참고>\n인셀이란?\n: 자신의 마음대로 안 되는\n세상을 저주하며\n자신의 억압된 감정을\n넷상에서 발산하는 이를 말한다.", mouseX + 100, mouseY - 125);
+    text("<참고>\n인셀이란?\n: 세상 살면서 불만은 많지만\n바뀔 생각은 안 하고\n남탓만 오지게 하는\n불행하고 안쓰러운 사람", mouseX + 100, mouseY - 125);
   }
 
   // 마우스를 올렸을 때만 <참고> 설명 텍스트를 그리게 처리
@@ -1392,7 +1398,7 @@ function drawStage0_13() { //트럭 충돌
   let truckWidth = truckImg.width * truckScale;
   let truckHeight = truckImg.height * truckScale;
   imageMode(CENTER);
-  image(truckImg, width / 2 + 20 + offsetX, height / 2, truckWidth, truckHeight);
+  image(truckImg, width / 2 + 20 + offsetX, height / 2, truckWidth * 0.1, truckHeight * 0.1);
 
   // 이미지 크기 업데이트
   truckScale += truckScaleSpeed;
@@ -1414,6 +1420,9 @@ function drawStage0_13() { //트럭 충돌
 }
 
 function drawStage0_14() {
+  if (localFrameCount == 0){
+    playBackgroundMusic(invitationBgm);
+  }
   redValue0 = constrain(redValue0 + 3, 0, 185);
   background(redValue0, 0, 0);
   fill(255);
@@ -1467,7 +1476,7 @@ function drawStage0_16() {
       charIndex0_16++;
     }
   } else {
-    isReady = true; // 텍스트가 모두 출력되면 준비 완료
+    isReady0_16 = true; // 텍스트가 모두 출력되면 준비 완료
   }
   text(typedText0_16, width * 0.25 + 100, height / 2);
 }
@@ -1591,10 +1600,10 @@ function drawStage0_21() {
 
   imageMode(CENTER);
   rectMode(CENTER);
-  fill(0, 0, 0, 100);
-  rect(width / 2, height / 2 + 300, width, 300);
+  fill(0,0,0,100);
+  rect(width / 2, height/2+300, width, 300);
   fill(0);
-  rect(width / 2, height / 2 + 150, width, 10);
+  rect(width / 2, height/2+150, width, 10);
   if (charIndex0_21 < textToType0_21.length) {
     if (frameCount % typingSpeed === 0) {
       typedText0_21 += textToType0_21[charIndex0_21];
@@ -1604,9 +1613,9 @@ function drawStage0_21() {
     isReady0_21 = true; // 텍스트가 모두 출력되면 준비 완료
   }
   fill(255);
-  text(typedText0_21, width / 2, 675);
+  text(typedText0_21, width/2, 675);
   localFrameCount++;
-}
+} 
 
 function prepareStage0_22() {
   textToType0_22 = "ㅋㅋ 딱 보니 알겠지? 나다 나… 노엘 갤러거\n물론 유저 네가 아는\n현실 세계의 그놈과는 차이가 있을 거야";
@@ -1847,7 +1856,7 @@ function drawStage1() {
   //스테이지 1 설명
   textSize(30);
   text(
-    "첫 번째 스테이지 오픈! 이세계 노엘 갤러거와의 대담!\n그가 던진 신랄한 질문 공격을 피해 가장 락스타다운 대답을 고를 것!",
+    "첫 번째 스테이지 오픈! 이세계 노엘 갤러거와의 대담!\n그가 던진 질문 공격을 피해 가장 락스타다운 대답을 고를 것!",
     width / 2,
     height / 2
   );
@@ -2013,15 +2022,15 @@ function drawQuestion1_2() {
 }
 
 function prepareDrawResult1_2() {
-  textToType1_2_1 = "정답은 3번이다! 이런 나라에서 사는 건 락이 맞다!";
+  textToType1_2_1 = "정답은 3번이다!\n이런 나라에서 사는 건 락이 맞다!";
   typedText1_2_1 = ""; // 초기화
   charIndex1_2_1 = 0;
   isReady1_2_1 = false;
-  textToType1_2_2 = "정답은 3번이다! 꼼지락꼼지락 기타를 쳐라 bro!";
+  textToType1_2_2 = "정답은 3번이다!\n꼼지락꼼지락 기타를 쳐라 bro!";
   typedText1_2_2 = ""; // 초기화
   charIndex1_2_2 = 0;
   isReady1_2_2 = false;
-  textToType1_2_3 = "정답! 이건 락이 아니다! 차라리 굶어뒤져라!";
+  textToType1_2_3 = "정답! 이건 락이 아니다!\n니 도시락은 니가 싸라!";
   typedText1_2_3 = ""; // 초기화
   charIndex1_2_3 = 0;
   isReady1_2_3 = false;
@@ -2154,7 +2163,7 @@ function drawResult1_3() {
     rect(width / 2, height / 2 + 150, width, 10);
     if (charIndex1_3_1 < textToType1_3_1.length) {
       if (frameCount % typingSpeed === 0) {
-        typedText1_3_1 += textToType1_3_1[charIndex1_3_2];
+        typedText1_3_1 += textToType1_3_1[charIndex1_3_1];
         charIndex1_3_1++;
       }
     } else {
@@ -2209,7 +2218,7 @@ function stageFail1_3() {
 }
 
 function prepareStage1Success_1() {
-  textToType1_s_1 = "뭐야 이 자식, 제법 치잖아?\n용케도 요리조리 잘 빠져나갔겠다...\n요행이 따르는 모양이지?";
+  textToType1_s_1 = "끝났다고 안심하지 마라 망둥아!\n이 게임은 쉬웠지?\n진짜는 다음부터라고!";
   typedText1_s_1 = ""; // 초기화
   charIndex1_s_1 = 0;
   isReady1_s_1 = false;
@@ -2239,7 +2248,7 @@ function stage1Success_1() {
 }
 
 function prepareStage1Success_2() {
-  textToType1_s_2 = "하. 지. 만?\n과연 다음 스테이지도 네까짓 놈이 통과할 수 있을까????????";
+  textToType1_s_2 = "과연 다음 스테이지도 네까짓 놈이 통과할 수 있을까????????";
   typedText1_s_2 = ""; // 초기화
   charIndex1_s_2 = 0;
   isReady1_s_2 = false;
@@ -2552,7 +2561,7 @@ function drawStage3_1() {
   //깜빡이는 효과
   blinkTimer++;
   if (blinkTimer > blinkInterval * blinkCycle) {
-    fill(255, 255, 0);
+    fill(255, 255, 0); //노란색
     image(warningImg, width / 2, height / 2, warningImg.width / 2, warningImg.height / 2);
   } else {
     fill(0, 255, 0); //초록색
@@ -2589,7 +2598,7 @@ function drawStage3_2() {
   imageMode(CORNER);
   image(stageBack3Img, 0, 0, width, height);
   imageMode(CENTER);
-  image(noel4Img, width / 2, 300, 440, 480);
+  image(noel4Img, width / 2, 300, 440, 500);
   rectMode(CENTER);
   fill(0, 0, 0, 99);
   rect(width / 2, height / 2 + 300, width, 300);
@@ -2613,18 +2622,18 @@ function drawStage3_3() {
   imageMode(CORNER);
   image(stageBack3Img, 0, 0, width, height);
   imageMode(CENTER);
-  image(questionImg, width / 2, height / 4, 1500, 800);
+  image(questionImg, width / 2, height / 4+50, 1500, 800);
 
   //"최종 스테이지를 개크게 빵빠레 울리면서 시작하시겠습니까?" 문구
   textSize(30);
   fill(255);
   textAlign(CENTER, CENTER);
-  text("최종 스테이지를 개크게 빵빠레 울리면서 시작하시겠습니까?", width / 2, height / 4);
+  text("최종 스테이지를 개크게 빵빠레 울리면서 시작하시겠습니까?", width / 2, height / 4+50);
 
   // 선택지 "a"와 "b" 표시
   for (let i = 0; i < options3_1.length; i++) {
     let x = width / 2 - 600;
-    let y = height / 2 + i * 80;
+    let y = height / 2 + i * 80+50;
     let rectWidth = 1200;
     let rectHeight = 150;
 
@@ -2681,7 +2690,22 @@ function drawQuestion3() { //스테이지 3 게임 화면(page 14)
   //질문 텍스트
   noStroke();
   textSize(30);
-  text(question3, width / 2, height / 4);
+  fill(255);
+  textAlign(LEFT);
+  text4_1 = "Q. 다음 중 어떤 해골이 "
+  text4_2 = "데스메탈"
+  text4_3 = "을 듣고 있지?"
+  textFont(Font1);
+  text(text4_1, 390, height/4);
+  fill(255, 0, 0);
+  stroke(255);
+  strokeWeight(4);
+  textFont(Font2);
+  text(text4_2, 730, height/4);
+  noStroke();
+  fill(255);
+  textFont(Font1);
+  text(text4_3, 857, height/4);
 
   // 해골 이미지 위치 설정
   let skeleton1X = width / 2 - 420;
@@ -2722,6 +2746,16 @@ function drawQuestion3() { //스테이지 3 게임 화면(page 14)
     textAlign(CENTER, CENTER); // 텍스트 중앙 정렬
     text(options3[i], x + buttonWidth / 2, y + buttonHeight / 2); // 텍스트 표시
   }
+
+  if (mouseX > 730 && mouseX < 850 && mouseY > 195 && mouseY < 225) {
+    rectMode(CENTER);
+    rect(mouseX + 100, mouseY - 100, 280, 160, 5); // 배경 박스
+    fill(255);
+    textSize(20);
+    fill(0);
+    textFont(Font2);
+    text("솔직히 말하면\n블랙메탈과 데스메탈은\n구분하기 매우 어려움\n(설명하기 귀찮음...)\n어떻게 잘 찾아보시라", mouseX + 100, mouseY - 95);
+  }
 }
 
 // 마우스가 특정 영역 안에 있는지 확인하는 함수
@@ -2742,6 +2776,10 @@ function prepareResult3() {
   typedTextR3_3 = ""; // 초기화
   charIndexR3_3 = 0;
   isReadyR3_3 = false;
+  textToTypeR3_4 = "정답!";
+  typedTextR3_4 = ""; // 초기화
+  charIndexR3_4 = 0;
+  isReadyR3_4 = false;
 }
 
 function drawResult3() { //스테이지 3 결과 화면 //타자기 효과 수정 필요
@@ -2754,9 +2792,18 @@ function drawResult3() { //스테이지 3 결과 화면 //타자기 효과 수�
     rect(width / 2, height / 2 + 300, width, 300);
     fill(0);
     rect(width / 2, height / 2 + 150, width, 10);
+    if (charIndexR3_4 < textToTypeR3_4.length) {
+      if (frameCount % typingSpeed === 0) {
+        typedTextR3_4 += textToTypeR3_4[charIndexR3_4];
+        charIndexR3_4++;
+      }
+    } else {
+      isReadyR3_4 = true; // 텍스트가 모두 출력되면 준비 완료
+    }
     fill(255);
     textSize(30);
-    text("정답! ", width / 2, 675);
+    text(typedTextR3_4, width / 2, 675);
+
     imageMode(CENTER);
     image(skeleton3Img, width / 2, height / 2 + 100, 500, 500);
   } else if (questionResult3 === "wrong1") { //1번 고름(오답)
@@ -2765,7 +2812,7 @@ function drawResult3() { //스테이지 3 결과 화면 //타자기 효과 수�
     rect(width / 2, height / 2 + 300, width, 300);
     fill(0);
     rect(width / 2, height / 2 + 150, width, 10);
-
+    
     if (!isReadyR3_1) {
       if (charIndexR3_1 < textToTypeR3_1.length) {
         if (frameCount % typingSpeed === 0) {
@@ -2803,18 +2850,21 @@ function drawResult3() { //스테이지 3 결과 화면 //타자기 효과 수�
     // 텍스트 화면 출력
     fill(255);
     textSize(30);
+    textFont(Font1);
     text(typedTextR3_1, 340, 675); // 텍스트 1
-    fill(255, 0, 0);
+    fill(255, 0, 0); 
+    stroke(255);
     textFont(Font2);
     text(typedTextR3_2, 610, 675); // 텍스트 2
     fill(255);
+    noStroke();
     textFont(Font1);
     text(typedTextR3_3, 980, 675); // 텍스트 3
     noStroke();
 
     imageMode(CENTER);
     image(skeletonFailImg, width / 2, height / 2 - 100, 840, 440);
-
+    
     if (mouseX > 560 && mouseX < 670 && mouseY > 655 && mouseY < 700) { //이모코어 설명
       fill(245, 245, 245, 130);
       rectMode(CENTER);
@@ -2872,7 +2922,7 @@ function drawResult3() { //스테이지 3 결과 화면 //타자기 효과 수�
     textSize(30);
     textFont(Font1);
     text(typedTextR3_1, 340, 675); // 텍스트 1
-    fill(255, 0, 0);
+    fill(255, 0, 0); 
     stroke(255);
     textFont(Font2);
     text(typedTextR3_2, 610, 675); // 텍스트 2
@@ -2884,7 +2934,7 @@ function drawResult3() { //스테이지 3 결과 화면 //타자기 효과 수�
 
     imageMode(CENTER);
     image(skeletonFailImg, width / 2, height / 2 - 100, 840, 440);
-
+    
     if (mouseX > 560 && mouseX < 670 && mouseY > 655 && mouseY < 700) { //이모코어 설명
       fill(245, 245, 245, 130);
       rectMode(CENTER);
@@ -2892,6 +2942,7 @@ function drawResult3() { //스테이지 3 결과 화면 //타자기 효과 수�
       fill(255);
       textSize(20);
       fill(0);
+      textFont(Font2);
       text("<참고>\n이모코어란?\n: 기타를 중심으로 한\n감성적인 선율을\n특징으로 하는 록이다.\n이모님과는 관련없음에 주의하자.", mouseX + 100, mouseY - 125);
       fill(255, 0, 0);
     }
@@ -3077,7 +3128,7 @@ function stage4Fail_1() { //실패 시 권혁수 1
   background(0);
   fill(200);
   imageMode(CENTER);
-  image(hyuksoo1Img, width / 2, 300, hyuksoo1Img.width * 0.7, hyuksoo1Img.height * 0.7);
+  image(hyuksoo1Img, width / 2, 300, hyuksoo1Img.width * 0.7, hyuksoo1Img.height * 0.7-63);
   rectMode(CENTER);
   fill(0, 0, 0, 99);
   rect(width / 2, height / 2 + 300, width, 300);
@@ -3110,7 +3161,7 @@ function stage4Fail_2() { //실패 시 권혁수 2
   background(0);
   fill(200);
   imageMode(CENTER);
-  image(hyuksoo2Img, width / 2, 300, hyuksoo2Img.width * 0.7, hyuksoo2Img.height * 0.7);
+  image(hyuksoo2Img, width / 2, 300, hyuksoo2Img.width * 0.7, hyuksoo2Img.height * 0.7-63);
   rectMode(CENTER);
   fill(0, 0, 0, 99);
   rect(width / 2, height / 2 + 300, width, 300);
@@ -3495,7 +3546,7 @@ function drawOutro_3() {
   text("갑자기 잘생겨진\n이세계 노엘갤러거\n(순정만화같음ㅎ.ㅎ)", 300, height / 2);
 }
 
-function drawOutro_4() {
+function drawOutro_4() { //여기는 타자기 효과 없는지? -> 앞 장면에서 타자기 효과로 나왔던 글자가 계속 떠 있는 상태임미다다
   imageMode(CORNER);
   image(back2Img, 0, 0, width, height);
   image(noelCartoonImg, 0, 0, width, height);
@@ -3512,7 +3563,7 @@ function drawOutro_4() {
   stroke(255);
   strokeWeight(2);
   textSize(42);
-  text("갑자기???", 1240, 700);
+  text("갑자기???", 1240, 700); //위치 변경
   noStroke();
   textSize(20);
   text("click!", 1240, 740);
@@ -3901,13 +3952,13 @@ function mousePressed() {
     playBackgroundMusic(walkingBgm);
     pagezero = 5;
     prepareStage0_5();
-  } else if (pagezero === 5) {
+  } else if (pagezero === 5&&isReady0_5) {
     pagezero = 6;
     prepareStage0_6();
-  } else if (pagezero === 6) {
+  } else if (pagezero === 6&&isReady0_6) {
     pagezero = 7;
     prepareStage0_7();
-  } else if (pagezero === 7) {
+  } else if (pagezero === 7&&(isReady0_7_1&&isReady0_7_2&&isReady0_7_3&&isReady0_7_4)) {
     walkingBgm.stop();
     if (mouseX > 405 && mouseX < 530 && mouseY > 625 && mouseY < 650) {
       pagezero = 7;
@@ -3915,11 +3966,11 @@ function mousePressed() {
       prepareStage0_8();
       pagezero = 8;
     }
-  } else if (pagezero === 8) {
+  } else if (pagezero === 8&& isReady0_8) {
     warningBgm.play();
     pagezero = 9;
     prepareStage0_9();
-  } else if (pagezero === 9) {
+  } else if (pagezero === 9&& isReady0_9_1&&isReady0_9_2&&isReady0_9_3) {
     if (mouseX > 490 && mouseX < 570 && mouseY > 620 && mouseY < 680) {
       pagezero = 9;
     } else {
@@ -3927,10 +3978,12 @@ function mousePressed() {
       pagezero = 10;
     }
   } else if (pagezero === 10) {
+    awareBgm.loop();
     pagezero = 11;
   } else if (pagezero === 11) {
     if (charIndex0 === message0.length && charIndex0_1 === message0_1.length) { //글자 다 나타나야 클릭 가능
       console.log("모든 텍스트가 표시되었습니다. 다음 장면으로 이동.");
+      awareBgm.stop();
       pagezero = 12;
       truckSuspenseBgm.play();
     }
@@ -3949,24 +4002,26 @@ function mousePressed() {
       countdownBgm.stop();
       pagezero = 13;
       prepareStage0_13();
+      localFrameCount = 0;
       playBackgroundMusic(truckCrashBgm);
     }, 3000);
   } else if (pagezero === 15) {
     if (mouseX > width / 2 + 250 - 220 && mouseX < width / 2 + 250 + 220 && mouseY > height / 2 - 250 && mouseY < height / 2 + 250) {
-      playBackgroundMusic(invitationBgm);
       pagezero = 16;
       prepareStage0_16();
     }
-  } else if (pagezero === 16 && isReady) {
+  } else if (pagezero === 16 && isReady0_16) {
     localFrameCount = 0; //초기화
     pagezero = 17;
   } else if (pagezero === 17) {
     if (alpha0_17 > 240) {
       invitationBgm.stop();
+      userOpenEyeBgm.play();
       pagezero = 18;
       prepareStage0_18();
     }
-  } else if (pagezero === 18) {
+  } else if (pagezero === 18 && isReady0_18) {
+    userOpenEyeBgm.stop();
     textStage0_18 += 1; //텍스트만 바뀜
     playBackgroundMusic(walkingBgm);
     pagezero = 19;
@@ -3975,36 +4030,36 @@ function mousePressed() {
     playBackgroundMusic(noelBgm);
     pagezero = 20;
     prepareStage0_20();
-  } else if (pagezero === 20) {
+  } else if (pagezero === 20 && isReady0_20) {
     pagezero = 21;
     prepareStage0_21();
-  } else if (pagezero === 21) {
+  } else if (pagezero === 21 && isReady0_21) {
     if (localFrameCount > 200) {
       pagezero = 22;
       prepareStage0_22();
     }
-  } else if (pagezero === 22) {
+  } else if (pagezero === 22 && isReady0_22) {
+    playBackgroundMusic(fillBlankBgm);
     pagezero = 23;
     prepareStage0_23();
-  } else if (pagezero === 23) {
+  } else if (pagezero === 23 && isReady0_23) {
     pagezero = 24;
     prepareStage0_24();
-  } else if (pagezero === 24) {
-    noelBgm.stop();
+  } else if (pagezero === 24 && isReady0_24) {
+    breakingBgm.play();
+    fillBlankBgm.stop();
     triggerBreakingEffect();
     pagezero = 99; //클릭 방지
     prepareStage0_25();
-  } else if (pagezero === 25) {
-    playBackgroundMusic(noelBgm);
+  } else if (pagezero === 25 && isReady0_25) {
+    playBackgroundMusic(noExplainBgm);
     pagezero = 26;
     prepareStage0_26();
-  } else if (pagezero === 26) {
+  } else if (pagezero === 26 && isReady0_26) {
     textStage0_26 += 1; //텍스트만 바뀜
     if (textStage0_26 == 2) {
-      noelBgm.stop();
       pagezero = null;
       drawLivesState = true;
-      playBackgroundMusic(stage1InfoBgm);
       pageone = 1;
     }
   } else if (pageone === 1) {
@@ -4015,7 +4070,7 @@ function mousePressed() {
       let rectHeight = 50;
 
       if (mouseX > width / 2 + 15 - 340 && mouseX < width / 2 + 15 + 340 && mouseY > 680 - 100 && mouseY < 680 + 100) {
-        stage1InfoBgm.stop();
+        noExplainBgm.stop();
         countdownBgm.play();
         pageone = 2;
         countdown = 3; //카운트다운 초기화
@@ -4056,7 +4111,7 @@ function mousePressed() {
         }, 1000);
       }
     }
-  } else if (pageone === 4) {
+  } else if (pageone === 4 && (isReady1_1_1|| isReady1_1_2 || isReady1_1_3)) {
     //정답 시 다음 화면으로 넘어가기
     if (questionResult1_1 === "right") { //정답
       pageone = 9;
@@ -4067,12 +4122,13 @@ function mousePressed() {
       pageone = 8;
       background(0);
     } // 이전 화면 초기화
-  } else if (pageone === 5) {
+  } else if (pageone === 5 && isReady1_s_1) {
     drawLivesState = false;
     pageone = 6;
     prepareStage1Success_2()
     background(0); // 이전 화면 초기화
-  } else if (pageone === 6) {
+  } else if (pageone === 6 && isReady1_s_2) {
+    playBackgroundMusic(uservsnoelBgm);
     pageone = 7;
     background(0); // 이전 화면 초기화
   } else if (pageone === 7) {
@@ -4108,7 +4164,7 @@ function mousePressed() {
         }, 1000);
       }
     }
-  } else if (pageone === 10) {
+  } else if (pageone === 10 && (isReady1_2_1 || isReady1_2_2 || isReady1_2_3)) {
     //정답 시 다음 화면으로 넘어가기
     if (questionResult1_2 === "right") { //정답
       pageone = 12;
@@ -4146,7 +4202,7 @@ function mousePressed() {
         }, 1000);
       }
     }
-  } else if (pageone === 13) {
+  } else if (pageone === 13 && (isReady1_3_1|| isReady1_3_2 || isReady1_3_3)) {
     //정답 시 다음 화면으로 넘어가기
     if (questionResult1_3 === "right") { //정답
       prepareStage1Success_1()
@@ -4168,9 +4224,11 @@ function mousePressed() {
   } else if (pagetwo === 2) {
     if (mouseX > width / 2 + 15 - 340 && mouseX < width / 2 + 15 + 340 && mouseY > 680 - 100 && mouseY < 680 + 100) {
       stage2InfoBgm.stop();
+      playBackgroundMusic(stage2ExplainBgm);
       pagetwo = 3;
     }
   } else if (pagetwo === 3) {
+    stage2ExplainBgm.stop();
     countdownBgm.play();
     pagetwo = 4;
     countdown = 3; //카운트다운 초기화
@@ -4244,6 +4302,7 @@ function mousePressed() {
         if (userLife == 0) { //죽으면
           pagetwo = null;
           drawStage4Fail_1();
+          playBackgroundMusic(hyuksooBgm);
           pagefour = 3;
         } else {
           game2PlayedCount++;
@@ -4264,6 +4323,7 @@ function mousePressed() {
         if (userLife == 0) {
           pagetwo = null;
           drawStage4Fail_1();
+          playBackgroundMusic(hyuksooBgm);
           pagefour = 3;
         } else {
           drawLivesState = false;
@@ -4273,12 +4333,12 @@ function mousePressed() {
         }
       }
     }
-  } else if (pagetwo === 8) {
+  } else if (pagetwo === 8 && isReadyS2S3_1) {
     drawLivesState = false;
     playBackgroundMusic(noelMadBgm);
     prepareStage2ToStage3_2();
     pagetwo = 9;
-  } else if (pagetwo === 9) {
+  } else if (pagetwo === 9 && isReadyS2S3_2) {
     warningBgm.play();
     pagetwo = null;
     pagethree = 1;
@@ -4288,13 +4348,13 @@ function mousePressed() {
     drawLivesState = true;
     pagethree = 2;
     prepareDrawStage3_2();
-  } else if (pagethree === 2) {
+  } else if (pagethree === 2 && isReadyS3_2) {
     pagethree = 3;
   } else if (pagethree === 3) {
     noelMadBgm.stop();
     for (let i = 0; i < 2; i++) { //선택지 처리
       let x = width / 2 - 400; // 버튼 위치
-      let y = height / 2 + i * 80;
+      let y = height / 2 + i * 80+50;
       let rectWidth = 800;
       let rectHeight = 50;
 
@@ -4444,12 +4504,14 @@ function mousePressed() {
         prepareResult3();
       }
     }
-  } else if (pagethree === 7) { //스테이지 3 결과
+  } else if (pagethree === 7 && ((isReadyR3_1 && isReadyR3_2 && isReadyR3_3) || isReadyR3_4)) { //스테이지 3 결과
     if (questionResult3 === "right") { //정답인 경우
+      skeletonDeadBgm.play();
       pagethree = 8;
       prepareStage3Success1();
     }
     else { //오답인 경우
+      stage3FailBgm.play();
       if (mouseX > 550 && mouseX < 670 && mouseY > 655 && mouseY < 700) { //이모코어 설명
         pagethree = 7;
       } else {
@@ -4457,10 +4519,10 @@ function mousePressed() {
         pagethree = 10;
       }
     }
-  } else if (pagethree === 8) { //정답 시 화면
+  } else if (pagethree === 8 && isReadys3s1) { //정답 시 화면
     prepareStage3Success2();
     pagethree = 9;
-  } else if (pagethree === 9) {
+  } else if (pagethree === 9 && isReadys3s2) {
     pagethree = 11;
     drawLivesState = false;
     prepareStage3ToEnding();
@@ -4468,47 +4530,50 @@ function mousePressed() {
     drawLivesState = false;
     if (userLife == 0) {
       pagethree = null;
-      pagefour = 2;
+      playBackgroundMusic(hyuksooBgm);
+      drawStage4Fail_1();
+      pagefour = 3;
     } else {
       pagethree = 11;
       prepareStage3ToEnding();
     }
-  } else if (pagethree === 11) {
+  } else if (pagethree === 11 && isReadys3e) {
     playBackgroundMusic(outro1Bgm);
     if (fadeAlpha3 < 50) {
       pagethree = null;
       pagefive = 1;
       preparedrawOutro_1();
     }
-  } else if (pagefive === 1) { //아웃트로 시작
+  } else if (pagefive === 1 && isReadyoutro_1) { //아웃트로 시작
     pagefive = 2;
   } else if (pagefive === 2) {
     pagefive = 3;
     preparedrawOutro_3();
-  } else if (pagefive === 3) {
+  } else if (pagefive === 3 && isReadyoutro_3) {
     pagefive = 4;
   } else if (pagefive === 4) {
     if (mouseX > 1150 && mouseX < 1340 && mouseY > 680 && mouseY < 730) {
       preparedrawOutro_5();
       pagefive = 5;
     }
-  } else if (pagefive === 5) {
+  } else if (pagefive === 5 && isReadyoutro_5) {
     pagefive = 6;
     preparedrawOutro_6();
-  } else if (pagefive === 6) {
+  } else if (pagefive === 6 && isReadyoutro_6) {
     pagefive = 7;
     preparedrawOutro_7();
-  } else if (pagefive === 7) {
+  } else if (pagefive === 7 && isReadyoutro_7) {
     pagefive = 8;
     preparedrawOutro_8();
     preparedrawOutro_9();
-  } else if (pagefive === 9) {
+  } else if (pagefive === 9 && isReadyoutro_9) {
     if (isHit) {
       pagefive = 10;
+      backToRealBgm.play();
       truckCrashBgm.stop();
       preparedrawOutro_10();
     }
-  } else if (pagefive === 10) {
+  } else if (pagefive === 10 && isReadyoutro_10) {
     if (fadeAlpha3 < 80) {
       pagefive = 11;
     }
@@ -4528,13 +4593,12 @@ function mousePressed() {
   } else if (pagefive === 18) {
     pagefive = 19;
   } else if (pagefive === 19) {// outro 마지막 장면 -> 인생네컷으로 연결
-    outro2Bgm.stop();
     pagefive = null;
     pagefour = 1;
-  } else if (pagefour === 3) {
+  } else if (pagefour === 3 && isReadys4f1 ) {
     drawStage4Fail_2();
     pagefour = 4;
-  } else if (pagefour === 4) {
+  } else if (pagefour === 4 && isReadys4f2) {
     //createCanvas(1440, 1350); //캔버스 크기를 엔딩용으로 변경
     pagefour = 2;
   } else if (pagefour === 2) {
